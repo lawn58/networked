@@ -54,8 +54,8 @@ MACHINES = {
 }
 
 Vagrant.configure("2") do |config|
-#config.vm.synced_folder ".", "/vagrant", disabled: true
-config.vm.synced_folder ".", "/vagrant",type:"virtualbox"
+config.vm.synced_folder ".", "/vagrant", disabled: true
+#config.vm.synced_folder ".", "/vagrant",type:"virtualbox"
   MACHINES.each do |boxname, boxconfig|
 
     config.vm.define boxname do |box|
