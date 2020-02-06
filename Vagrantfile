@@ -5,7 +5,7 @@ MACHINES = {
   :inetRouter => {
         :box_name => "centos/7",
         :net => [
-                   {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "router-net"},
+                   {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "router-net"},
                 ]
   },
   :centralRouter => {
@@ -84,6 +84,7 @@ config.vm.synced_folder ".", "/vagrant", disabled: true
           box.vm.provision "shell", run: "always", inline: <<-SHELL
             iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
 	    iptables-save > /etc/firewall.conf
+	    route add -net 192.168.2.0/24 gw 192.168.255.5
 	    echo "/sbin/iptables-restore < /etc/firewall.conf" >> /etc/rc.d/rc.local && chmod +x /etc/rc.d/rc.local
         echo net.ipv4.conf.all.forwarding=1 >> /etc/sysctl.d/99-sysctl.conf && sysctl -p
             SHELL
